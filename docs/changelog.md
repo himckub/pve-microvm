@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.3.9 (2026-05-15)
+
+- Kernel overlay: add BPF_SYSCALL + BPF_JIT for Docker/runc support
+- CI: bump GitHub Actions to v5/v3 (Node.js 22, no deprecation warnings)
+- Workaround: Debian stock kernel for Docker workloads until kernel rebuild
+
+
 ## v0.3.5 (2026-04-27)
 
 50 shipped features, 21 guest OS types.

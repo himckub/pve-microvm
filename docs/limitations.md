@@ -54,7 +54,8 @@ to get an interactive shell.
 
 ## Kernel config
 
-Uses `x86_64_defconfig` with an overlay for virtio, vsock, and virtiofs.
+Uses `x86_64_defconfig` with an overlay for virtio, vsock, virtiofs, and
+Docker support (BPF, netfilter, overlay-fs, bridge).
 The Firecracker 6.1 kernel config is NOT compatible — it has broken virtio
 device ID tables on kernel 6.12+. Always use the shipped kernel.
 

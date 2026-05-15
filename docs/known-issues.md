@@ -71,3 +71,30 @@ args.
 3. Sort guarantees scsi0 is always emitted first (`/dev/vda` = root)
 4. Cloud-init ISO included as `/dev/vdb` (needed for config delivery)
 5. Root filesystem labelled `microvm-root` for future LABEL= boot
+
+
+## Docker containers fail: bpf_prog_query not implemented (FIXED in v0.3.9)
+
+Docker's runc requires BPF cgroup device controller support:
+
+```
+bpf_prog_query(BPF_CGROUP_DEVICE) failed: function not implemented
+```
+
+**Root cause**: The microvm kernel overlay had `CONFIG_CGROUP_BPF=y` but
+not `CONFIG_BPF_SYSCALL=y`, so `CGROUP_BPF` was silently disabled by
+`make olddefconfig`.
+
+**Fix** (v0.3.9): Added `CONFIG_BPF_SYSCALL`, `CONFIG_BPF_JIT`,
+`CONFIG_BPF_JIT_ALWAYS_ON` to the overlay. Requires kernel rebuild.
+
+**Workaround**: Use the Debian stock kernel for Docker workloads:
+
+```bash
+# Inside the microvm, install the Debian kernel:
+apt-get install -y linux-image-amd64
+
+# On the host, extract and switch:
+# (see virtualdsm/archivebox examples in the docs)
+qm set <vmid> --args "-kernel /usr/share/pve-microvm/vmlinuz-docker ..."
+```
