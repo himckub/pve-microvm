@@ -1,3 +1,12 @@
+pve-microvm (0.3.10-1) trixie; urgency=high
+
+  * Fix: postinst no longer reverts to stale backup on upgrade
+    (caused get_cpu_options argument mismatch after qemu-server upgrade)
+  * Patches now re-applied to current files without restoring old backups
+  * Fixes #7
+
+ -- Rui Carmo <rui.carmo@gmail.com>  Tue, 27 May 2026 13:30:00 +0000
+
 pve-microvm (0.3.9-1) trixie; urgency=medium
 
   * Kernel overlay: add BPF_SYSCALL + BPF_JIT for Docker/runc

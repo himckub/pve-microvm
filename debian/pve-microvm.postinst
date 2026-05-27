@@ -4,14 +4,14 @@ set -e
 
 case "$1" in
     configure)
-        # Always revert and reapply to pick up new MicroVM.pm on upgrade
-        /usr/share/pve-microvm/pve-microvm-patch revert 2>/dev/null || true
+        # Remove stamp so apply works on the current (possibly new) files
+        rm -f /usr/share/pve-microvm/.applied
         /usr/share/pve-microvm/pve-microvm-patch apply
         ;;
     triggered)
-        # qemu-server was upgraded — revert stale patches and re-apply
+        # qemu-server was upgraded — re-apply patches to new files
         echo "pve-microvm: qemu-server changed, re-applying patches..."
-        /usr/share/pve-microvm/pve-microvm-patch revert 2>/dev/null || true
+        rm -f /usr/share/pve-microvm/.applied
         /usr/share/pve-microvm/pve-microvm-patch apply
         ;;
 esac
