@@ -214,7 +214,7 @@ sub microvm_config_to_command {
     push @$cmd, '-serial', 'chardev:serial0';
 
     # ── Guest agent (optional) ───────────────────────────────────
-    my $guest_agent = PVE::QemuServer::Agent::parse_guest_agent($conf);
+    my $guest_agent = eval { PVE::QemuServer::Agent::parse_guest_agent($conf->{agent}) } // {};
     if ($guest_agent->{enabled} && !$is_netbsd) {
         my $qgasocket = PVE::QemuServer::Helpers::qmp_socket(
             { name => "VM $vmid", id => $vmid, type => 'qga' }
